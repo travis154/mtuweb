@@ -1,10 +1,52 @@
 extends layout
 
 block content
-	section.jumbotron
-		h2 hello
+	section.row
+		section.col-md-8
+			div#carousel.carousel.slide(data-ride="carousel")
+				div.carousel-inner#content
+					div.item.active
+						img(src="http://placehold.it/780x450")
+					div.item
+						img(src="http://placehold.it/780x450")
+				a.left.carousel-control(href="#carousel", data-slide="prev")
+					span.glyphicon.glyphicon-chevron-left
+				a.right.carousel-control(href="#carousel", data-slide="next")
+					span.glyphicon.glyphicon-chevron-right				
+		section.col-md-4
+			section.row.carousel-mover
+				section.col-md-4
+					img(src="http://placehold.it/100x70").img-responsive
+				section.col-md-8
+					h4 Today we open our shop
+					small Jan. 16, 2014
+					p
+						small Taylor Rhodes, who was named Rackspace president this week, knows the cloud fight is on
+			section.row.carousel-mover.active
+				section.col-md-4
+					img(src="http://placehold.it/100x70").img-responsive
+				section.col-md-8
+					h4 Today we open our shop
+					small Jan. 16, 2014
+					p
+						small Taylor Rhodes, who was named Rackspace president this week, knows the cloud fight is on
+			section.row.carousel-mover
+				section.col-md-4
+					img(src="http://placehold.it/100x70").img-responsive
+				section.col-md-8
+					h4 Today we open our shop
+					small Jan. 16, 2014
+					p
+						small Taylor Rhodes, who was named Rackspace president this week, knows the cloud fight is on
 	section
-		h3 Our Members
 		section.row
-			section.col-sm-4
+			section.col-md-4
+				h3 Our Members
 				img(src="/files/microsoft.jpg").img-responsive
+			section.col-md-4
+				h3 Our Members
+				img(src="/files/microsoft.jpg").img-responsive
+			section.col-md-4
+				h3 Our Members
+				img(src="/files/microsoft.jpg").img-responsive
+
