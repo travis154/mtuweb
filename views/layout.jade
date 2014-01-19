@@ -2,7 +2,7 @@ doctype 5
 html
 	head
 		meta(name="viewport", content="width=device-width, initial-scale=1.0, user-scalable=no")
-		title Pool Chemicals & Services Maldives
+		title Maldives Trade Union
 		link(href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700', rel='stylesheet', type='text/css')
 		link(rel='stylesheet', href='/css/bootstrap.min.css')
 		link(rel='stylesheet', href='/css/app.css')
@@ -13,11 +13,12 @@ html
 		script(src='/js/parsley.js')
 		script(src='/templates.js')
 		script(src='/js/pre.js')
-	body
+	body(data-spy="scroll", data-target=".navbar-app")
 		section.container
 			section.row
 				section.col-md-4
-					img(src='/images/logo.png').img-responsive
+					a(href='/')
+						img(src='/images/logo.png').img-responsive
 				section.col-md-8.right-align
 					nav.navbar.navbar-default(role="navigation")#nav-parent
 						div.navbar-header
@@ -31,13 +32,13 @@ html
 								li
 									a(href='/') HOME
 								li
-									a(href='/products') ABOUT US
+									a(href='/about-us') ABOUT US
 								li
-									a(href='/services') CONTACT US
+									a(href='/contact') CONTACT US
 								li
-									a(href='/about') NEWS
+									a(href='/news') NEWS
 								li
-									a(href='/contact').contact-menu DOWNLOADS
+									a(href='/downloads') DOWNLOADS
 			block content
 			hr
 			footer.row

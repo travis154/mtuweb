@@ -21,7 +21,7 @@ var cms = require('./lib/cms');
 cms.add('website_administration',{
 	single:true,
 	fields:{
-		about:{type:'string', multi:true, rtl:true},
+		contact:{type:'string', multi:true, rtl:true},
 		image:{
 			type:'image', 
 			maintain_ratio:true,   
@@ -36,22 +36,58 @@ cms.add('website_administration',{
 		google_analytics:{type:'string', multi:true}
 	}
 });
-cms.add('website_brands',{
+cms.add('website_about',{
 	fields:{
 		name:{type:"string"},
+		article:{type:'string', multi:true, rtl:true},
 		image:{
 			type:'image', 
-			maintain_ratio:true,   
-			crop_height:90,
+			maintain_ratio:false,   
+			crop_width:1170, 
+			crop_height:550, 
 			sizes:[
 				{
 					prefix:"medium", 
-					height:90
+					width:240, 
+					height:180,
+				}, 
+				{
+					prefix:"mediumbig", 
+					width:370, 
+					height:370
 				}
 			]
 		}		
 	}
 });
+
+cms.add('website_news',{
+	fields:{
+		name:{type:"string"},
+		description:{type:'string', multi:true},
+		article:{type:'string', multi:true, rtl:true},
+		image:{
+			type:'image', 
+			maintain_ratio:false,   
+			crop_width:780, 
+			crop_height:450, 
+			sizes:[
+				{
+					prefix:"medium", 
+					width:240, 
+					height:180,
+				}, 
+				{
+					prefix:"mediumbig", 
+					width:370, 
+					height:370
+				}
+			]
+		}		
+	}
+});
+
+
 cms.add('website_home',{
 	fields:{
 		name:{type:"string"},
@@ -76,61 +112,7 @@ cms.add('website_home',{
 	}
 });
 
-cms.add('website_products',{
-	fields:{
-		name:{type:"string"},
-		image:{
-			type:'image', 
-			maintain_ratio:false,   
-			crop_width:1170, 
-			crop_height:550, 
-			sizes:[
-				{
-					prefix:"medium", 
-					width:240, 
-					height:180,
-				}, 
-				{
-					prefix:"mediumbig", 
-					width:370, 
-					height:370
-				}
-			]
-		},
-		caption:{
-			type:'string',
-			multi:true
-		}
-	}
-});
 
-cms.add('website_services',{
-	fields:{
-		name:{type:"string"},
-		image:{
-			type:'image', 
-			maintain_ratio:false,   
-			crop_width:1170, 
-			crop_height:550, 
-			sizes:[
-				{
-					prefix:"medium", 
-					width:240, 
-					height:180,
-				}, 
-				{
-					prefix:"mediumbig", 
-					width:370, 
-					height:370
-				}
-			]
-		},
-		caption:{
-			type:'string',
-			multi:true
-		}
-	}
-});
 cms.add('subscription_list',{
 	single:true,
 	readonly:true,
@@ -194,7 +176,33 @@ app.get('/', function(req, res){
 	if(WEBSITE_LIVE == false){
 		res.render('comingsoon');
 	}else{
-		res.render('index');
+		async.auto({
+			administration:function(fn){
+				cms
+				.website_administration
+				.findOne()
+				.lean()
+				.exec(fn);	
+			},
+			news:function(fn){
+				cms
+				.website_news
+				.find()
+				.lean()
+				.exec(function(err, articles){
+					if(err) return fn(err);
+					articles = _.map(articles, function(article){
+						//TODO: t
+						//extract time from objectid
+						
+						return article;
+					});
+					fn(null,articles);
+				});	
+			}
+		},function(err, page){
+			res.render('index',page);
+		});
 	}
 });
 app.get('/news', function(req, res){
@@ -204,13 +212,23 @@ app.get('/downloads', function(req, res){
 	res.render('products');
 });
 app.get('/contact', function(req, res){
-	res.render('contact');
+	cms
+	.website_administration
+	.findOne()
+	.lean()
+	.exec(function(err, doc){
+		res.render('contact',{administration:doc});
+	});
+
 });
-app.post('/contact', function(req, res){
-	res.end();
-});
-app.get('/about', function(req, res){
-	res.render('about');
+app.get('/about-us', function(req, res){
+	cms
+	.website_about
+	.find()
+	.lean()
+	.exec(function(err, data){
+		res.render('about',{affix:data});
+	});
 });
 
 
