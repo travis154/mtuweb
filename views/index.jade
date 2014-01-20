@@ -5,21 +5,23 @@ block content
 		section.col-md-8
 			div#carousel.carousel.slide(data-ride="carousel")
 				div.carousel-inner#content
-					div.item.active
-						img(src="http://placehold.it/780x450")
-					div.item
-						img(src="http://placehold.it/780x450")
+					-each article,k in news
+						div.item(class=(k==0 ? "active" : ""), id=article._id)
+							img(src="/files/" + article.image)
+							div.carousel-caption
+								a(href='/news/' + article._id)
+									h3=article.name
 				a.left.carousel-control(href="#carousel", data-slide="prev")
 					span.glyphicon.glyphicon-chevron-left
 				a.right.carousel-control(href="#carousel", data-slide="next")
 					span.glyphicon.glyphicon-chevron-right				
 		section.col-md-4
-			-each article in news
-				section.row.carousel-mover
+			-each article,k in news
+				section.row.carousel-mover(id="subitem_" + article._id, class=(k==0 ? "active" : ""), data-index=k)
+					h4=article.name
 					section.col-md-4
-						img(src="http://placehold.it/100x70").img-responsive
+						img(src="/files/medium" + article.image).img-responsive
 					section.col-md-8
-						h4=article.name
 						small Jan. 16, 2014
 						p
 							small=article.description
@@ -27,7 +29,11 @@ block content
 		section.row
 			section.col-md-4
 				h3 Our Members
-				img(src="/files/microsoft.jpg").img-responsive
+				section.members
+					img(src="http://placehold.it/110x75&text=logo1")
+					img(src="http://placehold.it/110x75&text=logo1")
+					img(src="http://placehold.it/110x75&text=logo1")
+					img(src="http://placehold.it/110x75&text=logo1")
 			section.col-md-4
 				h3 Downloads
 				ul

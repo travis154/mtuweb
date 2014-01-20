@@ -88,27 +88,19 @@ cms.add('website_news',{
 });
 
 
-cms.add('website_home',{
+cms.add('downloads_forms',{
 	fields:{
 		name:{type:"string"},
-		image:{
-			type:'image', 
-			maintain_ratio:false,   
-			crop_width:1170, 
-			crop_height:550, 
-			sizes:[
-				{
-					prefix:"medium", 
-					width:240, 
-					height:180,
-				}, 
-				{
-					prefix:"mediumbig", 
-					width:370, 
-					height:370
-				}
-			]
-		}		
+		file:{type:'file'},
+		description:{type:'string', multi:'true'}	
+	}
+});
+
+cms.add('downloads_announcements',{
+	fields:{
+		name:{type:"string"},
+		file:{type:'file'},
+		description:{type:'string', multi:'true'}	
 	}
 });
 
@@ -206,10 +198,17 @@ app.get('/', function(req, res){
 	}
 });
 app.get('/news', function(req, res){
-	res.render('products');
+	cms
+	.website_news
+	.find()
+	.lean()
+	.exec(function(err, data){
+		res.render('news',{affix:data});
+	});
+
 });
 app.get('/downloads', function(req, res){
-	res.render('products');
+	res.render('downloads');
 });
 app.get('/contact', function(req, res){
 	cms
